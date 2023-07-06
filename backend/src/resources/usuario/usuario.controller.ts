@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
 
 import {
   criarUsuario,
@@ -24,6 +25,10 @@ const create = async (req: Request, res: Response) => {
   const usuario: criarUsuarioDto = req.body;
 
   try {
+    const salt = await bcrypt.genSalt(10);
+    const senhaComHash = await bcrypt.hash(usuario.senha, salt);
+    usuario.senha = senhaComHash;
+
     const novoUsuario = await criarUsuario(usuario);
     res.status(201).json(novoUsuario);
   } catch (err) {
@@ -49,6 +54,10 @@ const update = async (req: Request, res: Response) => {
   const usuario = req.body;
 
   try {
+    const salt = await bcrypt.genSalt(10);
+    const senhaComHash = await bcrypt.hash(usuario.senha, salt);
+    usuario.senha = senhaComHash;
+
     const result = await atualizarUsuario(id, usuario);
     if (result === null) res.status(404).json({ msg: 'Usuário não existe :(' });
     else res.status(200).json({ msg: 'Usuário atualizado :)' });
