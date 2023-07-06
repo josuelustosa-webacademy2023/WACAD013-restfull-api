@@ -6,3 +6,8 @@ export const criarUsuario = async (
 ): Promise<Usuario> => {
   return await Usuario.create(usuario);
 };
+
+export const listarTodosUsuarios = async (): Promise<Usuario[]> => {
+  const usuarios = await Usuario.findAll();
+  return usuarios.map((p) => p.toJSON());
+};
