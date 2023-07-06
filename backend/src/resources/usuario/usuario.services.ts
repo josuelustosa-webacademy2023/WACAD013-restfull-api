@@ -26,3 +26,10 @@ export const atualizarUsuario = async (
   const [affectedCount] = await Usuario.update(usuario, { where: { id } });
   return affectedCount;
 };
+
+export const deletarUsuario = async (id: string): Promise<number | null> => {
+  const usuarioCadastrado = await listarUsuario(id);
+
+  if (usuarioCadastrado === null) return null;
+  else return await Usuario.destroy({ where: { id } });
+};

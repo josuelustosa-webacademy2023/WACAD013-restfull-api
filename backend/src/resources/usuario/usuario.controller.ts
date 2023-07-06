@@ -5,6 +5,7 @@ import {
   listarTodosUsuarios,
   listarUsuario,
   atualizarUsuario,
+  deletarUsuario,
 } from './usuario.services';
 import { criarUsuarioDto } from './usuario.types';
 import { Usuario } from '../../models/Usuario';
@@ -56,4 +57,18 @@ const update = async (req: Request, res: Response) => {
   }
 };
 
-export default { index, create, read, update };
+const remove = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const usuario = await deletarUsuario(id);
+
+    if (usuario === null)
+      res.status(404).json({ msg: 'Usuário não existe :(' });
+    else res.status(200).json({ msg: 'Usuário deletado :)' });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+export default { index, create, read, update, remove };
