@@ -1,8 +1,8 @@
 import { Usuario } from '../../models/Usuario';
-import { createUsuarioDto } from './usuario.types';
+import { criarUsuarioDto } from './usuario.types';
 
 export const criarUsuario = async (
-  usuario: createUsuarioDto,
+  usuario: criarUsuarioDto,
 ): Promise<Usuario> => {
   return await Usuario.create(usuario);
 };
