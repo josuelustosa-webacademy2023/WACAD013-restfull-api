@@ -4,6 +4,7 @@ import {
   criarUsuario,
   listarTodosUsuarios,
   listarUsuario,
+  atualizarUsuario,
 } from './usuario.services';
 import { criarUsuarioDto } from './usuario.types';
 import { Usuario } from '../../models/Usuario';
@@ -35,11 +36,24 @@ const read = async (req: Request, res: Response) => {
   try {
     const usuario = await listarUsuario(id);
     if (usuario === null)
-      res.status(404).json({ msg: 'Usuario não existe :(' });
+      res.status(404).json({ msg: 'Usuário não existe :(' });
     else res.status(200).json(usuario);
   } catch (err) {
     res.status(404).json(err);
   }
 };
 
-export default { index, create, read };
+const update = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const usuario = req.body;
+
+  try {
+    const result = await atualizarUsuario(id, usuario);
+    if (result === null) res.status(404).json({ msg: 'Usuário não existe :(' });
+    else res.status(200).json({ msg: 'Usuário atualizado :)' });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+export default { index, create, read, update };

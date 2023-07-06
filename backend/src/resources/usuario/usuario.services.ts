@@ -1,5 +1,5 @@
 import { Usuario } from '../../models/Usuario';
-import { criarUsuarioDto } from './usuario.types';
+import { atualizarUsuarioDto, criarUsuarioDto } from './usuario.types';
 
 export const criarUsuario = async (
   usuario: criarUsuarioDto,
@@ -14,4 +14,15 @@ export const listarTodosUsuarios = async (): Promise<Usuario[]> => {
 
 export const listarUsuario = async (id: string): Promise<Usuario | null> => {
   return await Usuario.findOne({ where: { id } });
+};
+
+export const atualizarUsuario = async (
+  id: string,
+  usuario: atualizarUsuarioDto,
+): Promise<number | null> => {
+  const usuarioId = await listarUsuario(id);
+  if (usuarioId === null) return null;
+
+  const [affectedCount] = await Usuario.update(usuario, { where: { id } });
+  return affectedCount;
 };
