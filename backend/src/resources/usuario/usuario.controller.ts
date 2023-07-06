@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
 
-import { criarUsuario, listarTodosUsuarios } from './usuario.services';
+import {
+  criarUsuario,
+  listarTodosUsuarios,
+  listarUsuario,
+} from './usuario.services';
 import { criarUsuarioDto } from './usuario.types';
 import { Usuario } from '../../models/Usuario';
 
@@ -25,4 +29,17 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-export default { index, create };
+const read = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const usuario = await listarUsuario(id);
+    if (usuario === null)
+      res.status(404).json({ msg: 'Usuario não existe :(' });
+    else res.status(200).json(usuario);
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
+export default { index, create, read };

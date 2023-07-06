@@ -11,3 +11,7 @@ export const listarTodosUsuarios = async (): Promise<Usuario[]> => {
   const usuarios = await Usuario.findAll();
   return usuarios.map((p) => p.toJSON());
 };
+
+export const listarUsuario = async (id: string): Promise<Usuario | null> => {
+  return await Usuario.findOne({ where: { id } });
+};
