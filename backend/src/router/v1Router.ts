@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import pingRouter from '../resources/ping/ping.router';
-import produtoController from '../resources/produto/produto.router';
+import produtoController from '../resources/produto/produto.routes';
 import usuarioController from '../resources/usuario/usuario.router';
 
 const router = Router();

@@ -1,16 +1,16 @@
 import { Request, Response } from 'express';
 import {
-  createProduto,
-  getAllProdutos,
-  getProduto,
-  updateProduto,
-} from './produto.services';
-import { createProdutoDto } from './produto.types';
+  criarProduto,
+  listarProdutos,
+  listarProduto,
+  atualizarProduto,
+} from './produto.service';
+import { criarProdutoDto } from './produto.types';
 import { Produto } from '../../models/Produto';
 
 const index = async (req: Request, res: Response) => {
   try {
-    const produtos = await getAllProdutos();
+    const produtos = await listarProdutos();
     res.status(200).json(produtos);
   } catch (err) {
     res.status(500).json(err);
@@ -19,9 +19,9 @@ const index = async (req: Request, res: Response) => {
 };
 
 const create = async (req: Request, res: Response) => {
-  const produto: createProdutoDto = req.body;
+  const produto: criarProdutoDto = req.body;
   try {
-    const newProduto = await createProduto(produto);
+    const newProduto = await criarProduto(produto);
     res.status(201).json(newProduto);
   } catch (err) {
     return await Produto.create(produto);
@@ -32,7 +32,7 @@ const read = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const produto = await getProduto(id);
+    const produto = await listarProduto(id);
     if (produto === null)
       res.status(404).json({ msg: 'Produto não existe :(' });
     else res.status(200).json(produto);
@@ -46,7 +46,7 @@ const update = async (req: Request, res: Response) => {
   const produto = req.body;
 
   try {
-    const result = await updateProduto(id, produto);
+    const result = await atualizarProduto(id, produto);
     if (result === null) res.status(404).json({ msg: 'Produto não existe :(' });
     else res.status(200).json({ msg: 'Produto atualizado :)' });
   } catch (err) {
