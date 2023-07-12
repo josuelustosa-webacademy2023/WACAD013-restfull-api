@@ -4,6 +4,7 @@ import {
   listarProdutos,
   listarProduto,
   atualizarProduto,
+  deletarProduto
 } from './produto.service';
 import { criarProdutoDto } from './produto.types';
 import { Produto } from '../../models/Produto';
@@ -54,6 +55,18 @@ const update = async (req: Request, res: Response) => {
   }
 };
 
-const remove = async (req: Request, res: Response) => {};
+const remove = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  
+  try {
+    const produto = await deletarProduto(id);
+
+    if (produto === null)
+      res.status(404).json({ msg: 'Produto não existe.' });
+    else res.status(200).json({ msg: 'Produto deletado.' });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
 
 export default { index, create, read, update, remove };

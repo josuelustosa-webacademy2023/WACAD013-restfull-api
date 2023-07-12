@@ -26,3 +26,10 @@ export const atualizarProduto = async (
   const [affectedCount] = await Produto.update(produto, { where: { id } });
   return affectedCount;
 };
+
+export const deletarProduto = async (id: string): Promise<number | null> => {
+  const produtoCadastrado = await listarProduto(id);
+
+  if (produtoCadastrado === null) return null;
+  else return await Produto.destroy({ where: { id } });
+};
