@@ -35,7 +35,7 @@ const read = async (req: Request, res: Response) => {
   try {
     const produto = await listarProduto(id);
     if (produto === null)
-      res.status(404).json({ msg: 'Produto não existe :(' });
+      res.status(404).json({ msg: 'Produto não existe.' });
     else res.status(200).json(produto);
   } catch (err) {
     res.status(404).json(err);
@@ -48,8 +48,8 @@ const update = async (req: Request, res: Response) => {
 
   try {
     const result = await atualizarProduto(id, produto);
-    if (result === null) res.status(404).json({ msg: 'Produto não existe :(' });
-    else res.status(200).json({ msg: 'Produto atualizado :)' });
+    if (result === null) res.status(404).json({ msg: 'Produto não existe.' });
+    else res.status(200).json({ msg: 'Produto atualizado.' });
   } catch (err) {
     res.status(500).json(err);
   }
